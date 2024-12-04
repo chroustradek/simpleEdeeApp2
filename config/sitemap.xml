@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sitemap SYSTEM "cps.dtd">
+<sitemap>
+
+    <environment>
+        <!--do not change production and test, values are set by server variable: cps_config_hostname_override -->
+        <production hostname="prod"/>
+        <test hostname="test" />
+    </environment>
+
+    <!-- reload 1 -->
+
+    <settings propertyname="project.path">${project.location}</settings>
+    <settings propertyfile="META-INF/lib_cps/default-9.0.properties"/>
+    <settings propertyfile="file:${project.path}/config/properties/settings-defaults.properties"/>
+    <settings propertyfile="file:/www/server/java/settings-it-server.properties"/>
+    <settings propertyfile="file:${project.path}/config/properties/settings-env-${environment}.properties"/>
+    <settings propertyfile="file:${project.path}/config/properties/settings-local-${hostname}.properties"/>
+    <settings propertyfile="file:${project.path}/config/properties/settings-final.properties"/>
+
+    <settings property="cps.reloadConfigMonitoredOnFile" forEnvironment="test">monitoredForReload.txt</settings>
+    <settings property="cps.reloadConfigMonitoredOnFile" forEnvironment="production">monitoredForReload.txt</settings>
+
+    <settings property="templatestorage">f.cfg</settings>
+    <settings property="destinationstorage">f.pub</settings>
+    <settings property="fileItemServlet.gzip">true</settings>
+    <settings property="fileItemServlet.gzip.fileTypes">js;css</settings>
+
+    <settings property="defaultlang">cs</settings>
+    <settings property="defaultlangname">Čeština</settings>
+
+    <language id="cs" name="Česky" />
+    <language id="sk" name="Slovenčina" />
+    <language id="en" name="English" />
+    <language id="de" name="Deutsch" />
+    <!-- http://publications.europa.eu/code/en/en-370200.htm -->
+    <language id="bg" name="Български" /><!-- bulharština -->
+    <language id="da" name="Dansk" /><!-- dánština -->
+    <language id="et" name="Eesti keel" /><!-- estonština -->
+    <language id="el" name="Ελληνικά" /><!-- řečtina -->
+    <language id="es" name="Español" /><!-- španělštine -->
+    <language id="fr" name="Français" /><!-- francouština -->
+    <language id="ga" name="Gaeilge" /><!-- irština -->
+    <language id="it" name="Italiano" /><!-- italština -->
+    <language id="lv" name="Latviešu valoda" /><!-- latvian -->
+    <language id="lt" name="Lietuvių kalba" /><!-- lithuanian -->
+    <language id="hu" name="Magyar" /><!-- madarština -->
+    <language id="mt" name="Malti" /><!-- maltština -->
+    <language id="nl" name="Nederlands" /><!-- holandština -->
+    <language id="pl" name="Polski" /><!-- polština -->
+    <language id="pt" name="Português" /><!-- portuglaština -->
+    <language id="ro" name="Română" /><!-- rumunština -->
+    <language id="sl" name="Slovenščina" /><!-- slovinština -->
+    <language id="fi" name="Suomi" /><!-- finština -->
+    <language id="sv" name="Svenska" /><!-- švédština -->
+    <language id="hr" name="Hrvatski" /><!-- chorvatština -->
+    <language id="ru" name="Pусский" /><!--ruština-->
+
+    <domain>${project.domain}</domain>
+    <include path="/resources.xml"/>
+    <include path="/security.xml"/>
+    <include path="/modules.xml"/>
+    <include path="/storages.xml"/>
+    <include path="/macro.xml"/>
+    <include path="/sources.xml"/>
+    <include path="/module-edeeui/edee-cps.xml"/>
+
+    <notification enabled="${error.notification.enabled}"
+                  emailFrom="${project.web.email}"
+                  emailTo="${hv.email}"
+                  smtpServer="${smtp}"
+                  smtpPort="${smtp.port}">
+        <suppress exception="java.net.SocketTimeoutException" lessFrequentThan="5"/>
+        <suppress exception="org.springframework.transaction.TransactionTimedOutException" lessFrequentThan="2"/>
+    </notification>
+
+</sitemap>

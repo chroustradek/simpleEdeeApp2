@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sitemap SYSTEM "cps.dtd">
+<sitemap>
+    <security strategy="database cached remote" impl="spring">
+        <databaseauditlogger connection="c.edee" dialect="${database.dialect}"/>
+        <userproperties>
+            <userproperty id="name" name="Jméno a příjmení" description="jméno"/>
+            <userproperty id="email" name="E-mail" description="elektronická adresa"/>
+            <userproperty id="tel" name="Telefon" description="telefonní číslo"/>
+        </userproperties>
+        <!-- vychozi opravneni - pri prvnim startu se nacte do DB -->
+        <users>
+            <user name="edee_user" assignment="internal" groups="remote"/>
+        </users>
+        <groups>
+            <group name="edee" description="Přístup do administrace Edee CMS" defaultAssignment="true"/>
+            <group name="editor" description="Správce obsahu - primární web a úložiště"/>
+            <group name="administrator" description="Administrátor klient - plný přístup"/>
+            <group name="remote" description="Administrátor FG - plný přístup, systémový přístup"/>
+        </groups>
+        <roles>
+            <role name="view" rights="W" description="Zobrazení"/>
+            <role name="admin" rights="WCADVPE" description="Plný přístup - klient"/>
+            <role name="all" rights="WCADVPEO" description="Plný přístup, systémový přístup - FG"/>
+        </roles>
+        <securityrelations>
+
+        </securityrelations>
+
+        <securityPolicy>
+
+        </securityPolicy>
+    </security>
+</sitemap>

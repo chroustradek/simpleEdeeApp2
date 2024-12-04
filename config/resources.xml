@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sitemap SYSTEM "cps.dtd">
+<sitemap>
+
+    <resources>
+        <mysqlconnection id="c.edee" user="${project.dbuser}" password="${project.dbpwd}" database="${project.dbname}"
+                         hostname="${project.db}" connectionCollation="utf8mb4_general_ci" encoding="utf-8">
+            <pool type="c3p0">
+                <environmentspecific useon="production">
+                    <!-- production settings on DB side "max_connections" => "15", "max_user_connections" => "13" -->
+                    <parameter>
+                        <name>minPoolSize</name>
+                        <value>3</value>
+                    </parameter>
+                    <parameter>
+                        <name>maxPoolSize</name>
+                        <value>7</value>
+                    </parameter>
+                </environmentspecific>
+                <environmentspecific ignoreon="production">
+                    <parameter>
+                        <name>minPoolSize</name>
+                        <value>3</value>
+                    </parameter>
+                    <parameter>
+                        <name>maxPoolSize</name>
+                        <value>4</value>
+                    </parameter>
+                </environmentspecific>
+                <parameter>
+                    <name>numHelperThreads</name>
+                    <value>8</value>
+                </parameter>
+                <parameter>
+                    <name>maxConnectionAge</name>
+                    <value>6000</value>
+                </parameter>
+                <parameter>
+                    <name>maxIdleTime</name>
+                    <value>6000</value>
+                </parameter>
+                <parameter>
+                    <name>idleConnectionTestPeriod</name>
+                    <value>60</value>
+                </parameter>
+                <parameter>
+                    <name>preferredTestQuery</name>
+                    <value>SELECT 1</value>
+                </parameter>
+                <parameter>
+                    <name>checkoutTimeout</name>
+                    <value>5000</value>
+                </parameter>
+                <environmentspecific useon="development">
+                    <parameter>
+                        <name>unreturnedConnectionTimeout</name>
+                        <value>30</value>
+                    </parameter>
+                    <parameter>
+                        <name>debugUnreturnedConnectionStackTraces</name>
+                        <value>true</value>
+                    </parameter>
+                </environmentspecific>
+            </pool>
+        </mysqlconnection>
+
+        <threadpool type="user" queue="50" threads="2"/>
+        <threadpool type="image" queue="50" threads="2"/>
+    </resources>
+
+    <templateglobals>
+        <filtergroup id="rjNbsp">
+            <filter action="insertNonBreakSpaces"/>
+        </filtergroup>
+        <filtergroup id="rjWysiwyg">
+            <filter action="replaceRegExp">
+                <param><![CDATA[<p>(\u0020|\u00A0|\u200B|&nbsp;|&#160;)*</p>]]></param>
+                <result><![CDATA[]]></result>
+            </filter>
+            <filter action="replaceRegExp">
+                <param><![CDATA[ target="(\u0020|\u00A0|\u200B|&nbsp;|&#160;)*"]]></param>
+                <result><![CDATA[]]></result>
+            </filter>
+            <filter action="replaceRegExp">
+                <param><![CDATA[<table]]></param>
+                <result><![CDATA[<div class="horizontal-scroll-container" role="region" tabindex="0"><table]]></result>
+            </filter>
+            <filter action="replaceRegExp">
+                <param><![CDATA[</table>]]></param>
+                <result><![CDATA[</table></div>]]></result>
+            </filter>
+            <filter action="insertNonBreakSpaces"/>
+        </filtergroup>
+    </templateglobals>
+
+</sitemap>

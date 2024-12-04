@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.fg.lom.web2023</groupId>
+  <artifactId>lom_web2023_parent</artifactId>
+  <version>1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>web_web2023</module>
+  </modules>
+
+  <parent>
+    <groupId>com.fg.edee.release</groupId>
+    <artifactId>parent_17</artifactId>
+    <version>10.12.12</version>
+  </parent>
+  <!-- gitlab 14 -->
+  <developers>
+    <developer>
+      <id>RCH</id>
+      <email>chroust@fg.cz</email>
+      <name>Radek Chroust</name>
+      <organization>FG Forrest, a.s.</organization>
+      <organizationUrl>http://www.fg.cz</organizationUrl>
+      <roles>
+        <role>App Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <issueManagement>
+    <system>Gitlab</system>
+    <url>https://gitlab.fg.cz</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Gitlab</system>
+    <url>https://gitlab.fg.cz</url>
+  </ciManagement>
+  <scm>
+    <connection>https://gitlab.fg.cz/prj/p_lom.vns2023.git</connection>
+    <developerConnection>https://gitlab.fg.cz/prj/p_lom.vns2023.git</developerConnection>
+  </scm>
+  <properties>
+    <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+    <spring.data>2.4.6</spring.data>
+    <hibernate.manager>5.4.8.Final</hibernate.manager>
+
+    <java.version>17</java.version>
+<!--    RCH temp hotfix for reg. module for error `Error in input data: Writable property createOrigin does not exist on Service layer user`  from   at com.fg.lom.web2023.registration.service.GamerUserConverter.fillUser(GamerUserConverter.java:33)...-->
+<!--    <registration.version>5.27.1-RCH-2176-SNAPSHOT</registration.version>-->
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.22</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fg</groupId>
+        <artifactId>lib_export</artifactId>
+        <version>5.4.1</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Server port="8005" shutdown="SHUTDOWN">
+  <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+
+  <Service name="Catalina">
+    <Connector port="80" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="443"
+               maxHttpHeaderSize="32768" />
+
+    <Connector port="443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+               maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS"
+               keystoreFile="conf/.keystore"
+               maxHttpHeaderSize="32768" />
+
+    <Engine name="Catalina" defaultHost="localhost">
+
+      <Host name="localhost" appBase="/www/p_prj/p_lom/web2023/" deployOnStartup="false" autoDeploy="false" liveDeploy="false" unpackWARs="false">
+        <Valve className="org.apache.catalina.valves.AccessLogValve"
+               directory="logs" prefix="web-access-log"
+               suffix=".log" pattern="%h %l %u %t &quot;%r&quot; %s %b"/>
+        <Context path="" privileged="true" docBase="${fg.server.xml.docbase}">
+          <Parameter name="cps_config" value="${fg.server.xml.cps_config}" override="false"/>
+          <Parameter name="cps_environment" value="development" override="false"/>
+        </Context>
+      </Host>
+    </Engine>
+  </Service>
+</Server>

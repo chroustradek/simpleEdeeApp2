@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sitemap SYSTEM "cps.dtd">
+<sitemap>
+
+    <sourcestructures>
+
+        <prototypesource id="s.edee">
+            <sort>sourceData:desc(date)</sort>
+            <!--constraint>eq(lang,#lang#),relPageTree: eq(pageTreeId,#id#)</constraint-->
+            <!--constraint>relatedTags: hasAny(eq(tag.systemId,'HP'))</constraint-->
+        </prototypesource>
+
+        <prototypesource id="s.edee.sortable">
+            <sort>and(relPageTree: asc(sortOrder),desc(created))</sort>
+        </prototypesource>
+
+    </sourcestructures>
+
+    <prototypes path="file:${project.path}/config/module-publish/prototypes.xml"/>
+    <prototypes path="file:${project.path}/config/module-publish/prototypes-content-block.xml"/>
+
+    <vars>
+        <!--Default page variables-->
+        <var for="ROOT" name="bodyId"></var>
+        <var for="ROOT" name="bodyClass"></var>
+        <var for="ROOT" name="displayInMenu">true</var>
+        <var for="ROOT" name="displayInSitemap">true</var>
+        <var for="ROOT" name="hpSystemId">p.hp</var>
+        <var for="ROOT" name="webId">default</var>        <!--used for MultiWeb generator-->
+        <var for="ROOT" name="noindex">false</var>
+        <!--/Default page variables-->
+
+        <var for="p.hp" name="bodyClass">hp</var>
+        <var for="p.hp" name="displayInMenu">false</var>
+        <var for="p.hp" name="displayInSitemap">false</var>
+
+        <var for="p.informace-o-cookies" name="bodyClass">js_hideCookiePolicy</var>
+
+    </vars>
+
+    <node id="p.root.system" name="System root">
+        <var name="bodyClass"/>
+        <var name="displayInMenu"/>
+        <var name="displayInSitemap"/>
+        <var name="hpSystemId">p.hp</var>
+        <var name="webId">default</var>                    <!--used for MultiWeb generator-->
+        <var name="noindex">true</var>
+
+        <!--<locale lang="sk" />-->
+        <!--<locale lang="pl" />-->
+        <!--<locale lang="en" />-->
+        <!--<locale lang="de" />-->
+        <!--<locale lang="fr" />-->
+        <!--<locale lang="it" />-->
+        <!--<locale lang="hu" />-->
+
+
+
+    </node>
+
+</sitemap>

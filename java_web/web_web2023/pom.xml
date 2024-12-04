@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>web_web2023</artifactId>
+	<packaging>war</packaging>
+	<organization>
+		<name>FG Forrest, a.s.</name>
+		<url>https://www.fg.cz</url>
+	</organization>
+	<parent>
+		<groupId>com.fg.lom.web2023</groupId>
+		<artifactId>lom_web2023_parent</artifactId>
+		<version>1-SNAPSHOT</version>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>com.fg.edee.release</groupId>
+			<artifactId>parent_webapp_17</artifactId>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.fg.edee.release</groupId>
+			<artifactId>web_edee_template</artifactId>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>web_web2023</finalName>
+	</build>
+</project>

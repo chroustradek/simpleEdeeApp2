@@ -1,0 +1,1015 @@
+<!-- CPS DTD $Name: HEAD $ $Id: cps.dtd,v 1.1.1.1 2010/03/03 10:44:28 p_prj Exp $ -->
+<!ELEMENT sitemap (settings*,(definefragment*|fragment*|storages?|sourcestructures?|resources?|authorization?|security?|snippet?|baseencoding?|sourcepath?|destinationpath?|templatepath?|language*|customtags?|domain*|environment?|include*|buildinterval*|macro*|scheduler?|template+|modules+|sniffer*|category*|node*|page*|shortcut*|images*|fragment*|environmentspecific*)+)>
+
+<!ELEMENT comment (#PCDATA)>
+
+<!ELEMENT environmentspecific ANY>
+    <!ATTLIST environmentspecific ignoreon (#PCDATA) #IMPLIED>
+    <!ATTLIST environmentspecific useon (#PCDATA) #IMPLIED>
+    <!ATTLIST environmentspecific ignoreifpropertyset (#PCDATA) #IMPLIED>
+    <!ATTLIST environmentspecific useifpropertyset (#PCDATA) #IMPLIED>
+
+<!-- BASIC CONFIG !deprecated! -->
+<!ELEMENT baseencoding (#PCDATA)>
+<!ELEMENT sourcepath (#PCDATA)>
+<!ELEMENT destinationpath (#PCDATA)>
+<!ELEMENT templatepath (#PCDATA)>
+
+<!-- BASIC CONFIG -->
+<!ELEMENT settings (#PCDATA|environmentspecific*)>
+    <!ATTLIST settings property (editconfpath|templatepath|sourcepath|destinationpath|defaultlang|defaultlangname|wtdsourcedomain|path|url|encoding|userrights) #IMPLIED>
+    <!ATTLIST settings propertyname (#PCDATA) #IMPLIED>
+    <!ATTLIST settings propertyfile (#PCDATA) #IMPLIED>
+    <!ATTLIST settings category (general|attachment) #IMPLIED>
+
+<!ELEMENT environment (production+|test*|development*)>
+
+<!ELEMENT production EMPTY>
+    <!ATTLIST production hostname #REQUIRED>
+
+<!ELEMENT test EMPTY>
+    <!ATTLIST development hostname #REQUIRED>
+
+<!ELEMENT development EMPTY>
+    <!ATTLIST development hostname #IMPLIED>
+    <!ATTLIST development os>
+
+<!ELEMENT domain (#PCDATA)>
+    <!ATTLIST domain hostname CDATA #IMPLIED>
+
+<!ELEMENT language ( comment?,urlmodifier* )>
+    <!ATTLIST language id ID #REQUIRED>
+    <!ATTLIST language name CDATA #IMPLIED>
+
+<!-- AUTHORIZATION -->
+<!ELEMENT authorization ( users, roles )>
+
+<!ELEMENT users ( user+ )>
+
+<!ELEMENT user EMPTY>
+    <!ATTLIST user name CDATA #REQUIRED>
+    <!ATTLIST user role CDATA #IMPLIED>
+    <!ATTLIST user assignment CDATA #IMPLIED>
+    <!ATTLIST user groups IDREF #IMPLIED>
+
+<!ELEMENT roles ( role+ )>
+
+<!ELEMENT role ( right*|rights* )+>
+    <!ATTLIST role name ID #REQUIRED>
+    <!ATTLIST role rights CDATA #REQUIRED>
+
+<!ELEMENT right EMPTY>
+    <!ATTLIST right type (adminusage|publish|editcontent|changedomain|executemacro|storagedelete|storageupload|storagerename) #REQUIRED>
+
+<!--<!ELEMENT rights EMPTY>
+    <!ATTLIST rights type CDATA #REQUIRED>-->
+
+<!ELEMENT security ( fileauditlogger, userproperties, users, roles, securityrelations, securitysubsystem )>
+
+<!ELEMENT fileauditlogger EMPTY>
+    <!ATTLIST fileauditlogger path CDATA #REQUIRED>
+
+<!ELEMENT userproperties (userproperty+)>
+
+<!ELEMENT userproperty EMPTY>
+    <!ATTLIST userproperty id ID #REQUIRED>
+    <!ATTLIST userproperty name CDATA #IMPLIED>
+    <!ATTLIST userproperty description CDATA #IMPLIED>
+
+<!ELEMENT securityrelations (permission+)>
+
+<!ELEMENT securitysubsystem (classparam+)>
+    <!ATTLIST securitysubsystem name CDATA #IMPLIED>
+    <!ATTLIST securitysubsystem type CDATA #IMPLIED>
+
+<!ELEMENT permission (classparam+)>
+    <!ATTLIST permission group ID #REQUIRED>
+    <!ATTLIST permission role IDREF #REQUIRED>
+    <!ATTLIST permission module CDATA #IMPLIED>
+    <!ATTLIST permission target CDATA #IMPLIED>
+
+<!-- REPETETIVE CONFIGURATION -->
+<!ELEMENT definefragment (part+)>
+    <!ATTLIST definefragment id ID #REQUIRED>
+
+<!ELEMENT fragment EMPTY>
+    <!ATTLIST fragment id IDREF #REQUIRED>
+
+<!-- STRUCTURED SOURCES -->
+<!ELEMENT resources ( mysqlconnection*|jndiconnection*|oracleconnection*|sybaseconnection*|sequencer*|environmentspecific*|environmentspecific* )+>
+
+<!ELEMENT sourcestructures ( databasesource*|sqlsource*|filesource*|environmentspecific* )+>
+
+<!ELEMENT mysqlconnection (pool|environmentspecific*)?>
+    <!ATTLIST mysqlconnection id ID #REQUIRED>
+    <!ATTLIST mysqlconnection user CDATA #REQUIRED>
+    <!ATTLIST mysqlconnection password CDATA #REQUIRED>
+    <!ATTLIST mysqlconnection database CDATA #REQUIRED>
+    <!ATTLIST mysqlconnection hostname CDATA #REQUIRED>
+    <!ATTLIST mysqlconnection encoding CDATA #IMPLIED>
+    <!ATTLIST mysqlconnection unicode (true|false) #IMPLIED>
+    <!ATTLIST mysqlconnection monitoring (true|false) #IMPLIED>
+    <!ATTLIST mysqlconnection monitoringwithstackinfo (true|false) #IMPLIED>
+    <!ATTLIST mysqlconnection properties CDATA #IMPLIED>
+    <!ATTLIST mysqlconnection url CDATA #IMPLIED>
+
+<!ELEMENT oracleconnection (pool|environmentspecific*)?>
+    <!ATTLIST oracleconnection id ID #REQUIRED>
+    <!ATTLIST oracleconnection user CDATA #REQUIRED>
+    <!ATTLIST oracleconnection password CDATA #REQUIRED>
+    <!ATTLIST oracleconnection database CDATA #REQUIRED>
+    <!ATTLIST oracleconnection hostname CDATA #REQUIRED>
+    <!ATTLIST oracleconnection encoding CDATA #IMPLIED>
+    <!ATTLIST oracleconnection connectioncaching (true|false) #IMPLIED>
+    <!ATTLIST oracleconnection drivertype CDATA #IMPLIED>
+    <!ATTLIST oracleconnection monitoring (true|false) #IMPLIED>
+    <!ATTLIST oracleconnection monitoringwithstackinfo (true|false) #IMPLIED>
+    <!ATTLIST oracleconnection properties CDATA #IMPLIED>
+    <!ATTLIST oracleconnection url CDATA #IMPLIED>
+
+<!ELEMENT jndiconnection (pool|environmentspecific*)?>
+    <!ATTLIST jndiconnection id ID #REQUIRED>
+    <!ATTLIST jndiconnection envname CDATA #REQUIRED>
+    <!ATTLIST jndiconnection name CDATA #REQUIRED>
+    <!ATTLIST jndiconnection encoding CDATA #IMPLIED>
+    <!ATTLIST jndiconnection monitoring (true|false) #IMPLIED>
+    <!ATTLIST jndiconnection monitoringwithstackinfo (true|false) #IMPLIED>
+
+<!ELEMENT sybaseconnection (pool|environmentspecific*)?>
+    <!ATTLIST sybaseconnection id ID #REQUIRED>
+    <!ATTLIST sybaseconnection user CDATA #REQUIRED>
+    <!ATTLIST sybaseconnection password CDATA #REQUIRED>
+    <!ATTLIST sybaseconnection database CDATA #REQUIRED>
+    <!ATTLIST sybaseconnection hostname CDATA #REQUIRED>
+    <!ATTLIST sybaseconnection encoding CDATA #IMPLIED>
+    <!ATTLIST sybaseconnection monitoring (true|false) #IMPLIED>
+    <!ATTLIST sybaseconnection monitoringwithstackinfo (true|false) #IMPLIED>
+
+<!ELEMENT sequencer EMPTY>
+    <!ATTLIST sequencer type (file|mysql|oracle) #REQUIRED>
+    <!ATTLIST sequencer path CDATA #REQUIRED>
+    <!ATTLIST sequencer storage CDATA #REQUIRED>
+    <!ATTLIST sequencer name CDATA #REQUIRED>
+    <!ATTLIST sequencer connection IDREF #IMPLIED>
+
+<!ELEMENT sqlquery (#PCDATA|param*)>
+    <!ATTLIST sqlquery id ID #REQUIRED>
+    <!ATTLIST sqlquery template CDATA #REQUIRED>
+    <!ATTLIST sqlquery connection IDREF #REQUIRED>
+
+<!ELEMENT pool (parameter*)>
+    <!ATTLIST pool type CDATA #IMPLIED>
+    <!ATTLIST pool maxactive CDATA #IMPLIED>
+    <!ATTLIST pool maxidle CDATA #IMPLIED>
+    <!ATTLIST pool maxwait CDATA #IMPLIED>
+    <!ATTLIST pool testonborrow (true|false) #IMPLIED>
+    <!ATTLIST pool testonreturn (true|false) #IMPLIED>
+    <!ATTLIST pool testwhenidle (true|false) #IMPLIED>
+
+<!ELEMENT databasesource ( key?|itemid?|parts?|filerevisionhandler?|sort?|environmentspecific* )+>
+    <!ATTLIST databasesource id ID #REQUIRED>
+    <!ATTLIST databasesource name CDATA #REQUIRED>
+    <!ATTLIST databasesource connection CDATA #REQUIRED>
+    <!ATTLIST databasesource table CDATA #REQUIRED>
+    <!ATTLIST databasesource ddl CDATA #IMPLIED>
+    <!ATTLIST databasesource autocreate (never|onopen|onsave) "never">
+
+<!ELEMENT sqlsource ( listquery|readquery|createquery|updatequery|deletequery|sequencequery? )>
+    <!ATTLIST sqlsource id ID #REQUIRED>
+    <!ATTLIST sqlsource name CDATA #REQUIRED>
+    <!ATTLIST sqlsource guideline CDATA #IMPLIED>
+    <!ATTLIST sqlsource connection IDREF #REQUIRED>
+    <!ATTLIST sqlsource usecolumnlabel (true|false) #IMPLIED>
+    <!ATTLIST sqlsource autocreate (never|onopen|onsave) "never">
+    <!ATTLIST sqlsource oncreateitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource ondeleteitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource onsaveitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource onupdateitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource beforecreateitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource beforesaveitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource beforeupdateitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource beforedeleteitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource aftercreateitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource aftersaveitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource afterupdateitem IDREF #IMPLIED>
+    <!ATTLIST sqlsource afterdeleteitem IDREF #IMPLIED>
+
+<!ELEMENT appendix ( listquery?|readquery?|createquery?|updatequery?|deletequery?|sequencequery? )>
+
+<!ELEMENT listquery ( sqlquery|(param*)+|appendix? )>
+    <!ATTLIST listquery itemidcolumn CDATA #REQUIRED>
+    <!ATTLIST listquery modifiedcolumn CDATA #IMPLIED>
+
+<!ELEMENT readquery ( sqlquery|(param*)+ )>
+
+<!ELEMENT createquery ( sqlquery|(param*)+|appendix? )>
+
+<!ELEMENT updatequery ( sqlquery|(param*)+|appendix? )>
+
+<!ELEMENT deletequery ( sqlquery|(param*)+|appendix? )>
+
+<!ELEMENT sequencequery ( sqlquery|(param*)+|appendix? )>
+    <!ATTLIST listquery timedbefore (true|false) #IMPLIED>
+    <!ATTLIST listquery returngeneratedkeys (true|false) #IMPLIED>
+
+<!ELEMENT filesource ( item?|itemid?|parts?|filerevisionhandler?|condition?|sort?|modified?|partfilter?|environmentspecific* )+>
+    <!ATTLIST filesource id ID #REQUIRED>
+    <!ATTLIST filesource name CDATA #REQUIRED>
+    <!ATTLIST filesource charset CDATA #IMPLIED>
+    <!ATTLIST filesource sourcepath CDATA #IMPLIED>
+    <!ATTLIST filesource guideline CDATA #IMPLIED>
+    <!ATTLIST filesource sequencepath CDATA #IMPLIED>
+    <!ATTLIST filesource multilanguage (true|false) #IMPLIED>
+    <!ATTLIST filesource autocreate (never|onopen|onsave) "never">
+    <!ATTLIST filesource storage IDREF #IMPLIED>
+    <!ATTLIST filesource oncreateitem IDREF #IMPLIED>
+    <!ATTLIST filesource ondeleteitem IDREF #IMPLIED>
+    <!ATTLIST filesource onsaveitem IDREF #IMPLIED>
+    <!ATTLIST filesource onupdateitem IDREF #IMPLIED>
+    <!ATTLIST filesource beforecreateitem IDREF #IMPLIED>
+    <!ATTLIST filesource beforesaveitem IDREF #IMPLIED>
+    <!ATTLIST filesource beforeupdateitem IDREF #IMPLIED>
+    <!ATTLIST filesource beforedeleteitem IDREF #IMPLIED>
+    <!ATTLIST filesource aftercreateitem IDREF #IMPLIED>
+    <!ATTLIST filesource aftersaveitem IDREF #IMPLIED>
+    <!ATTLIST filesource afterupdateitem IDREF #IMPLIED>
+    <!ATTLIST filesource afterdeleteitem IDREF #IMPLIED>
+
+<!ELEMENT key ( check* )+>
+<!ELEMENT item ( part* )+>
+<!ELEMENT itemid ( part?|column? )+>
+<!ELEMENT parts ( part*|column*|fragment* )+>
+
+<!ELEMENT modified ( part+ )>
+    <!ATTLIST modified datepattern CDATA #REQUIRED>
+    <!ATTLIST modified datelocale CDATA #IMPLIED>
+
+<!ELEMENT check EMPTY>
+    <!ATTLIST check column CDATA #REQUIRED>
+    <!ATTLIST check value CDATA #REQUIRED>
+
+<!ELEMENT column EMPTY>
+    <!ATTLIST column name CDATA #REQUIRED>
+    <!ATTLIST column partname CDATA #IMPLIED>
+    <!ATTLIST column storable (true|false) #IMPLIED>
+
+<!-- REVISION CONTROL -->
+<!ELEMENT filerevisionhandler EMPTY>
+    <!ATTLIST filerevisionhandler path CDATA #IMPLIED>
+
+<!-- METADATA -->
+<!ELEMENT metadata EMPTY>
+    <!ATTLIST metadata name CDATA #REQUIRED>
+    <!ATTLIST metadata structure CDATA #REQUIRED>
+    <!ATTLIST metadata sourcepath CDATA #REQUIRED>
+    <!ATTLIST metadata guideline CDATA #IMPLIED>
+
+<!-- SNIPETS -->
+<!ELEMENT snippet EMPTY>
+    <!ATTLIST snippet id CDATA #REQUIRED>
+    <!ATTLIST snippet name CDATA #REQUIRED>
+    <!ATTLIST snippet source CDATA #IMPLIED>
+    <!ATTLIST snippet structure CDATA #REQUIRED>
+
+<!-- STORAGES -->
+<!ELEMENT storages ( filesystemstorage*|environmentspecific* )+>
+    <!ATTLIST storages basepath CDATA #IMPLIED>
+
+<!ELEMENT filesystemstorage ( metadata* | exclude* | include* | imagevariant* | gallery* | uploadsettings+ | uploadaction+ |environmentspecific* )*>
+    <!ATTLIST filesystemstorage id ID #REQUIRED>
+    <!ATTLIST filesystemstorage name CDATA #REQUIRED>
+    <!ATTLIST filesystemstorage path CDATA #REQUIRED>
+    <!ATTLIST filesystemstorage url CDATA #IMPLIED>
+    <!ATTLIST filesystemstorage normalize (true|false) "false">
+    <!--<!ATTLIST filesystemstorage secured (true|false) #IMPLIED>-->
+    <!--<!ATTLIST filesystemstorage lockDataFilePath CDATA #IMPLIED>-->
+
+<!-- GENERATED IMAGES -->
+<!ELEMENT images (image*)>
+    <!ATTLIST images basepath CDATA #REQUIRED>
+    <!ATTLIST images basestorage IDREF #IMPLIED>
+
+<!ELEMENT image (loadimage*|saveimage*|createimage*|resizeimage*|smartresizeimage*|typetoimage*|canvasresizeimage*|pastetoimage*|cropimage*)>
+    <!ATTLIST image id ID #REQUIRED>
+    <!ATTLIST image name CDATA #IMPLIED>
+    <!ATTLIST image basepath CDATA #REQUIRED>
+    <!ATTLIST image url CDATA #REQUIRED>
+    <!ATTLIST image previewurl CDATA #IMPLIED>
+    <!ATTLIST image alt CDATA #IMPLIED>
+
+<!ELEMENT imagevariant ( loadimage*|saveimage*|createimage*|resizeimage*|smartresizeimage*|typetoimage*|cropimage*|canvasresizeimage* )+>
+    <!ATTLIST imagevariant id CDATA #REQUIRED>
+    <!ATTLIST imagevariant name CDATA #REQUIRED>
+    <!ATTLIST imagevariant format CDATA #REQUIRED>
+    <!ATTLIST imagevariant quality CDATA #REQUIRED>
+    <!ATTLIST imagevariant path CDATA #REQUIRED>
+    <!ATTLIST imagevariant storage CDATA #IMPLIED>
+
+<!ELEMENT resizeimage EMPTY>
+    <!ATTLIST resizeimage width CDATA #IMPLIED>
+    <!ATTLIST resizeimage height CDATA #IMPLIED>
+    <!ATTLIST resizeimage smooth (true|false) #IMPLIED>
+    <!ATTLIST resizeimage resizeup (true|false) #IMPLIED>
+    <!ATTLIST resizeimage highquality (true|false) #IMPLIED>
+
+<!ELEMENT smartresizeimage EMPTY>
+    <!ATTLIST smartresizeimage longer CDATA #IMPLIED>
+    <!ATTLIST smartresizeimage shorter CDATA #IMPLIED>
+    <!ATTLIST smartresizeimage smooth (true|false) #IMPLIED>
+    <!ATTLIST smartresizeimage resizeup (true|false) #IMPLIED>
+    <!ATTLIST smartresizeimage highquality (true|false) #IMPLIED>
+
+<!ELEMENT createimage EMPTY>
+    <!ATTLIST createimage width CDATA #REQUIRED>
+    <!ATTLIST createimage height CDATA #REQUIRED>
+    <!ATTLIST createimage background CDATA #IMPLIED>
+
+<!ELEMENT loadimage EMPTY>
+    <!ATTLIST loadimage path CDATA #REQUIRED>
+    <!ATTLIST loadimage resourcepath CDATA #IMPLIED>
+    <!ATTLIST loadimage storage IDREF #IMPLIED>
+
+<!ELEMENT saveimage EMPTY>
+    <!ATTLIST saveimage path CDATA #REQUIRED>
+    <!ATTLIST saveimage previewpath CDATA #IMPLIED>
+    <!ATTLIST saveimage format (jpg|gif|png) #IMPLIED>
+    <!ATTLIST saveimage quality CDATA #IMPLIED>
+    <!ATTLIST saveimage colordepth CDATA #IMPLIED>
+    <!ATTLIST saveimage overwriteage CDATA #IMPLIED>
+    <!ATTLIST saveimage transparentcolor CDATA #IMPLIED>
+    <!ATTLIST saveimage storage IDREF #IMPLIED>
+
+<!ELEMENT typetoimage EMPTY>
+    <!ATTLIST typetoimage text CDATA #REQUIRED>
+    <!ATTLIST typetoimage font IDREF #REQUIRED>
+    <!ATTLIST typetoimage size CDATA #REQUIRED>
+    <!ATTLIST typetoimage style (plain|bold|italic|bolditalic) "plain" #REQUIRED>
+    <!ATTLIST typetoimage color CDATA #REQUIRED>
+    <!ATTLIST typetoimage x CDATA #REQUIRED>
+    <!ATTLIST typetoimage y CDATA #REQUIRED>
+    <!ATTLIST typetoimage smooth (true|false) #IMPLIED>
+    <!ATTLIST typetoimage alpha CDATA #IMPLIED>
+    <!ATTLIST typetoimage align (left|right|center) #IMPLIED>
+
+<!ELEMENT canvasresizeimage EMPTY>
+    <!ATTLIST canvasresizeimage width CDATA #REQUIRED>
+    <!ATTLIST canvasresizeimage height CDATA #REQUIRED>
+    <!ATTLIST canvasresizeimage fillcanvas (true|false) #IMPLIED>
+    <!ATTLIST canvasresizeimage smooth (true|false) #IMPLIED>
+    <!ATTLIST canvasresizeimage highquality (true|false) #IMPLIED>
+    <!ATTLIST canvasresizeimage background CDATA #IMPLIED>
+
+<!ELEMENT pastetoimage EMPTY>
+    <!ATTLIST pastetoimage x CDATA #REQUIRED>
+    <!ATTLIST pastetoimage y CDATA #REQUIRED>
+    <!ATTLIST pastetoimage alpha CDATA #IMPLIED>
+    <!ATTLIST pastetoimage path CDATA #REQUIRED>
+    <!ATTLIST pastetoimage resourcepath CDATA #IMPLIED>
+    <!ATTLIST pastetoimage storage IDREF #IMPLIED>
+
+<!ELEMENT cropimage EMPTY>
+    <!ATTLIST cropimage width CDATA #REQUIRED>
+    <!ATTLIST cropimage height CDATA #REQUIRED>
+    <!ATTLIST cropimage x CDATA #IMPLIED>
+    <!ATTLIST cropimage y CDATA #IMPLIED>
+    <!ATTLIST cropimage align CDATA #IMPLIED>
+
+<!ELEMENT gallery EMPTY>
+    <!ATTLIST gallery id CDATA #IMPLIED>
+    <!ATTLIST gallery name CDATA #IMPLIED>
+    <!ATTLIST gallery template CDATA #IMPLIED>
+    <!ATTLIST gallery sortby (filemodifieddesc) #IMPLIED>
+
+<!ELEMENT uploadsettings EMPTY>
+    <!ATTLIST uploadsettings maxuploadsize CDATA #IMPLIED>
+    <!ATTLIST uploadsettings replace (true|false) #IMPLIED>
+    <!ATTLIST uploadsettings rootupload (true|false) #IMPLIED>
+    <!ATTLIST uploadsettings subfoldersupload (true|false) #IMPLIED>
+    <!ATTLIST uploadsettings accepted CDATA #IMPLIED>
+    <!ATTLIST uploadsettings packetsize CDATA #IMPLIED>
+
+<!ELEMENT uploadaction (classname*|classparam*)>
+    <!ATTLIST uploadaction ext CDATA "all" #IMPLIED>
+    <!ATTLIST uploadaction method (extractarchive|replacebyvariant|createvariant|delete|updatepublishmetadata|custom|validateimage|exifrotate) #REQUIRED>
+    <!ATTLIST uploadaction variant IDREF #IMPLIED>
+    <!ATTLIST uploadaction limitHeight CDATA #IMPLIED>
+    <!ATTLIST uploadaction limitWidth CDATA #IMPLIED>
+    <!ATTLIST uploadaction limitLonger CDATA #IMPLIED>
+    <!ATTLIST uploadaction limitShorter CDATA #IMPLIED>
+    <!ATTLIST uploadaction userPart CDATA #IMPLIED>
+    <!ATTLIST uploadaction sourceStructure IDREF #IMPLIED>
+    <!ATTLIST uploadaction fastCheck (true|false) "true">
+    <!ATTLIST uploadaction deleteInvalid (true|false) #IMPLIED>
+
+<!-- TEMPLATE CONFIG -->
+<!ELEMENT template (comment?|alternate*|area*|structuredarea*|customarea*|filter*|urlmodifier*|after*|before*|replace*)*>
+    <!ATTLIST template id ID #REQUIRED>
+    <!ATTLIST template extends IDREF #IMPLIED>
+    <!ATTLIST template name CDATA #IMPLIED>
+    <!ATTLIST template source CDATA #IMPLIED>
+    <!ATTLIST template public (true|false) #IMPLIED>
+    <!ATTLIST template filterkeywords (true|false) #IMPLIED>
+    <!ATTLIST template sourcecharset CDATA #IMPLIED>
+    <!ATTLIST template disableutfbom (true|false) #IMPLIED>
+
+<!ELEMENT before (area*|structuredarea*)>
+    <!ATTLIST before area CDATA #REQUIRED>
+
+<!ELEMENT after (area*|structuredarea*)>
+    <!ATTLIST after area CDATA #REQUIRED>
+
+<!ELEMENT replace (area*|structuredarea*)>
+    <!ATTLIST replace area CDATA #REQUIRED>
+
+<!ELEMENT structuredarea (comment?|sort?|group?|filter*|partfilter*)*>
+    <!ATTLIST structuredarea id CDATA #IMPLIED>
+    <!ATTLIST structuredarea name CDATA #REQUIRED>
+    <!ATTLIST structuredarea lang CDATA #IMPLIED>
+    <!ATTLIST structuredarea template CDATA #IMPLIED>
+    <!ATTLIST structuredarea methodtemplate CDATA #IMPLIED>
+
+<!ELEMENT customarea (comment?|filter*|classname|classparam*)*>
+    <!ATTLIST customarea id CDATA #IMPLIED>
+    <!ATTLIST customarea name CDATA #REQUIRED>
+    <!ATTLIST customarea lang CDATA #IMPLIED>
+    <!ATTLIST customarea template CDATA #IMPLIED>
+    <!ATTLIST customarea methodtemplate CDATA #IMPLIED>
+
+<!ELEMENT classparam (name,value)>
+
+<!ELEMENT name (#PCDATA)>
+
+<!ELEMENT value (#PCDATA)>
+
+<!ELEMENT sort (sort*)>
+    <!ATTLIST sort as (string|int|date) "string">
+    <!ATTLIST sort by CDATA #IMPLIED>
+    <!ATTLIST sort ascending (true|false) "true">
+    <!ATTLIST sort datepattern CDATA #IMPLIED>
+    <!ATTLIST sort datelocale CDATA #IMPLIED>
+    <!ATTLIST sort locale CDATA #IMPLIED>
+
+<!ELEMENT group EMPTY>
+    <!ATTLIST group as (string|int|date) "string">
+    <!ATTLIST group by CDATA #IMPLIED>
+    <!ATTLIST group ascending (true|false) "true">
+    <!ATTLIST group datepattern CDATA #IMPLIED>
+    <!ATTLIST group datelocale CDATA #IMPLIED>
+
+<!ELEMENT area (comment?,condition*,partlimit*,start*,stop*,part*,filter*)>
+    <!ATTLIST area id CDATA #IMPLIED>
+    <!ATTLIST area name CDATA #REQUIRED>
+    <!ATTLIST area method (file|node|list|pagedlist|categorylist|navig|navigtree|fulltree|filetree|track2path|pagination|pertinentlink|attachment|keyword|application|objectcontent|include|clear|templateinfo) #IMPLIED>
+    <!ATTLIST area level CDATA #IMPLIED>
+    <!ATTLIST area param CDATA #IMPLIED>
+    <!ATTLIST area lang CDATA #IMPLIED>
+    <!ATTLIST area showhidden (true|false) #IMPLIED>
+    <!ATTLIST area template CDATA #IMPLIED>
+    <!ATTLIST area methodtemplate CDATA #IMPLIED>
+    <!ATTLIST area type (page|node|pagelist|pagedlist|categorylist|application|all) #IMPLIED>
+    <!ATTLIST area sortby (name|id|date|namedesc|iddesc|datedesc|categorypriority|categoryprioritydesc) #IMPLIED>
+    <!ATTLIST area required (true|false) "true">
+    <!ATTLIST area guideline CDATA #IMPLIED>
+
+<!ELEMENT part (partlimit*,start*,stop*,partdefault*,filter*)>
+    <!ATTLIST part name CDATA #REQUIRED>
+    <!ATTLIST part lang CDATA #IMPLIED>
+    <!ATTLIST part sniff (name|category|url|onclick|onmouseover|onmouseout|target|priority|targetid|filename|attachment|id|date|type|pertinenturl) #IMPLIED>
+    <!ATTLIST part required (true|false) #IMPLIED>
+    <!ATTLIST part trim (true|false) "false">
+
+<!ELEMENT start (#PCDATA)>
+    <!ATTLIST start include (true|false) #IMPLIED>
+    <!ATTLIST start lang IDREF #IMPLIED>
+
+<!ELEMENT stop (#PCDATA)>
+    <!ATTLIST stop include (true|false) #IMPLIED>
+    <!ATTLIST stop lang IDREF #IMPLIED>
+
+<!ELEMENT partlimit (#PCDATA)>
+    <!ATTLIST partlimit include (true|false) #IMPLIED>
+    <!ATTLIST partlimit lang CDATA #IMPLIED>
+
+<!ELEMENT partdefault (#PCDATA)>
+    <!ATTLIST partdefault lang CDATA #IMPLIED>
+
+<!ELEMENT alternate (alternative+,urlmodifier+)>
+    <!ATTLIST alternate id CDATA #REQUIRED>
+
+<!ELEMENT alternative EMPTY>
+    <!ATTLIST alternative source CDATA #REQUIRED>
+    <!ATTLIST alternative sourcecharset CDATA #IMPLIED>
+
+<!ELEMENT filter (condition*,param?,result?,classname?)>
+    <!ATTLIST filter action (removeEmptyLines|removeLineEnds|removeSpaces|removeRedundantSpaces|remove|removeRegExp|recode|processCpsKeywords|processCpsExpressions|processCpsTags|processCpsCustomTags|lowercase|uppercase|formatDate|insertNonBreakSpaces|insertNonBreakSpacesFull|replace|replaceRegExp|ssi|exporter|custom) #IMPLIED>
+    <!-- method and process attributes are deprecated by action attribute -->
+    <!ATTLIST filter method (custom|remover|decorator|recoder|customtags|formater|internalcps|ssi) #IMPLIED>
+    <!ATTLIST filter process (enters|emptylines|lineformating|spaces|nbspaces|custom|lowercase|uppercase|nbspacesfull|date|tags|expressions) #IMPLIED>
+    <!ATTLIST filter locale CDATA #IMPLIED>
+    <!ATTLIST filter prefix CDATA #IMPLIED>
+    <!ATTLIST filter constraint (none|preview) #IMPLIED>
+
+<!ELEMENT partfilter (condition*,param?,result?,classname?)>
+    <!ATTLIST partfilter action (removeEmptyLines|removeLineEnds|removeSpaces|removeRedundantSpaces|remove|removeRegExp|recode|processCpsKeywords|processCpsExpressions|processCpsCustomTags|lowercase|uppercase|formatDate|insertNonBreakSpaces|insertNonBreakSpacesFull|replace|replaceRegExp|ssi|virtualpart|custom) #IMPLIED>
+    <!ATTLIST partfilter locale CDATA #IMPLIED>
+    <!ATTLIST partfilter constraint (none|preview) #IMPLIED>
+    <!ATTLIST partfilter part CDATA #IMPLIED>
+    <!ATTLIST partfilter as CDATA #IMPLIED>
+    <!ATTLIST partfilter template CDATA #IMPLIED>
+
+<!ELEMENT classname (#PCDATA)>
+<!ELEMENT param (#PCDATA)>
+    <!ATTLIST param trim (true|false) "true">
+
+<!ELEMENT result (#PCDATA)>
+    <!ATTLIST result trim (true|false) "true">
+
+<!ELEMENT condition EMPTY>
+    <!ATTLIST condition method (part|object|var|ssl|preview|alternate|type|metadata) #REQUIRED>
+    <!ATTLIST condition object CDATA #IMPLIED>
+    <!ATTLIST condition property CDATA #IMPLIED>
+    <!ATTLIST condition type (equals|notequals|contains|contained|notcontains|notcontained|defined|notdefined|datebefore|dateafter) #IMPLIED>
+    <!ATTLIST condition value CDATA #IMPLIED>
+    <!ATTLIST condition item CDATA #IMPLIED>
+    <!ATTLIST condition state (true|false) "true">
+    <!ATTLIST condition datepattern CDATA #IMPLIED>
+    <!ATTLIST condition datelocale CDATA #IMPLIED>
+    <!ATTLIST condition datetomidnight (true|false) "false">
+    <!ATTLIST condition skiponpreview (true|false) "false">
+
+<!-- CATEGORIES AND TOOLS CONFIG -->
+<!ELEMENT category ( comment?, urlmodifier*, category* )*>
+    <!ATTLIST category id ID #REQUIRED>
+    <!ATTLIST category name CDATA #REQUIRED>
+
+<!ELEMENT sniffer (comment?,partlimit?,start?,stop?,part*)>
+    <!ATTLIST sniffer id ID #REQUIRED>
+    <!ATTLIST sniffer name CDATA #IMPLIED>
+    <!ATTLIST sniffer method (object|attachment|pertinenturl) "object">
+    <!ATTLIST sniffer required (true|false) "true">
+
+<!ELEMENT customtags ( comment?, tag+ )>
+
+<!ELEMENT tag ( filter* )>
+    <!ATTLIST tag name CDATA #IMPLIED>
+    <!ATTLIST tag template CDATA #IMPLIED>
+    <!ATTLIST tag pair (true|false) "true">
+    <!ATTLIST tag attributes CDATA #IMPLIED>
+    <!ATTLIST tag constraint (preview|cmspreview|none) #IMPLIED>
+
+<!ELEMENT urlmodifier (comment?,condition*)>
+    <!ATTLIST urlmodifier method (standard|fullurl|sslfullurl|custom|replace) "standard">
+    <!ATTLIST urlmodifier pathpre CDATA #IMPLIED>
+    <!ATTLIST urlmodifier pathpost CDATA #IMPLIED>
+    <!ATTLIST urlmodifier filepre CDATA #IMPLIED>
+    <!ATTLIST urlmodifier filepost CDATA #IMPLIED>
+    <!ATTLIST urlmodifier extension CDATA #IMPLIED>
+    <!ATTLIST urlmodifier process (object|attachment) "object">
+    <!ATTLIST urlmodifier lang IDREF #IMPLIED>
+
+<!ELEMENT buildinterval EMPTY>
+    <!ATTLIST buildinterval id ID #REQUIRED>
+    <!ATTLIST buildinterval name CDATA #REQUIRED>
+    <!ATTLIST buildinterval method (allways) #IMPLIED>
+    <!ATTLIST buildinterval minutes CDATA #IMPLIED>
+
+<!ELEMENT macro (action*|executeOnEvent?|inputParam*|environmentspecific*)>
+    <!ATTLIST macro id ID #REQUIRED>
+    <!ATTLIST macro name CDATA #REQUIRED>
+    <!ATTLIST macro description CDATA #REQUIRED>
+    <!ATTLIST macro omitdetail (true|false) "true">
+    <!ATTLIST macro guideline IDREF #IMPLIED>
+    <!ATTLIST macro public (true|false) "true" #IMPLIED>
+
+<!ELEMENT executeOnEvent EMPTY>
+    <!ATTLIST executeOnEvent name CDATA #REQUIRED>
+
+<!ELEMENT inputParam EMPTY>
+    <!ATTLIST inputParam name CDATA #REQUIRED>
+    <!ATTLIST inputParam defaultvalue CDATA #REQUIRED>
+
+<!ELEMENT action (successmessage?|failuremessage?|exclude*|include*|classname?|command?|message?|content?|sourceurl?|destinationstorage?|splitby?|fragments?|environmentspecific*)>
+    <!ATTLIST action name CDATA #REQUIRED>
+    <!ATTLIST action method (delete|copy|rename|build|sniff|zip|zipelement|echo|custom|exec|execmacro|mail|post|httpget|check|cleanup|splitfile|deletepagefile|modifystructure|xmlexternalactionlist) #REQUIRED>
+    <!ATTLIST action onerror (catch|throw) "throw">
+    <!ATTLIST action includechildren (true|false) "true">
+    <!ATTLIST action storage CDATA #IMPLIED>
+    <!ATTLIST action sourcestorage IDREF #IMPLIED>
+    <!ATTLIST action sourcepath CDATA #IMPLIED>
+    <!ATTLIST action deletesource  (true|false) "false" #IMPLIED>
+    <!ATTLIST action destinationpath CDATA #IMPLIED>
+    <!ATTLIST action methodpath CDATA #IMPLIED>
+    <!ATTLIST action id IDREF #IMPLIED>
+    <!ATTLIST action sourceid IDREF #IMPLIED>
+    <!ATTLIST action sourceitemid IDREF #IMPLIED>
+    <!ATTLIST action lang CDATA #IMPLIED>
+    <!ATTLIST action sourcelang CDATA #IMPLIED>
+    <!ATTLIST action includechilds (true|false) "false">
+    <!ATTLIST action cleanupImmediately (true|false) "false">
+
+<!ELEMENT exclude EMPTY>
+    <!ATTLIST exclude name CDATA #REQUIRED>
+
+<!ELEMENT include EMPTY>
+    <!ATTLIST include name CDATA #IMPLIED>
+    <!ATTLIST include path CDATA #IMPLIED>
+
+<!ELEMENT command (#PCDATA)>
+
+<!ELEMENT successmessage (#PCDATA)>
+
+<!ELEMENT failuremessage (#PCDATA)>
+
+<!ELEMENT message (#PCDATA)>
+    <!ATTLIST message from CDATA #REQUIRED>
+    <!ATTLIST message to CDATA #REQUIRED>
+    <!ATTLIST message subject CDATA #REQUIRED>
+    <!ATTLIST message smtp CDATA #REQUIRED>
+
+<!ELEMENT content (#PCDATA)>
+    <!ATTLIST content itemid CDATA #REQUIRED>
+    <!ATTLIST content part CDATA #REQUIRED>
+
+<!ELEMENT sourceurl (#PCDATA)>
+
+<!ELEMENT destinationstorage EMPTY>
+    <!ATTLIST destinationstorage id IDREF #REQUIRED>
+    <!ATTLIST destinationstorage path CDATA #REQUIRED>
+
+<!ELEMENT splitby (#PCDATA)>
+
+<!ELEMENT fragments (#PCDATA)>
+
+<!ELEMENT scheduler (crontrigger*|trigger*|environmentspecific*)>
+
+<!ELEMENT userscheduler (properties*|property*|environmentspecific*)>
+
+<!ELEMENT crontrigger (parameter*)>
+    <!ATTLIST crontrigger id ID #REQUIRED>
+    <!ATTLIST crontrigger name CDATA #REQUIRED>
+    <!ATTLIST crontrigger description CDATA #IMPLIED>
+    <!ATTLIST crontrigger targetmacro IDREF #REQUIRED>
+    <!ATTLIST crontrigger expression CDATA #REQUIRED>
+    <!ATTLIST crontrigger onlasttry (1|2|3|4) "4" #IMPLIED>
+    <!ATTLIST crontrigger refireinterval CDATA #IMPLIED>
+    <!ATTLIST crontrigger maxnumberoftries CDATA #IMPLIED>
+    <!ATTLIST crontrigger onerrormacro IDREF #IMPLIED>
+    <!ATTLIST crontrigger notificationemailaddress CDATA #IMPLIED>
+    <!ATTLIST crontrigger starttime CDATA #IMPLIED>
+    <!ATTLIST crontrigger endtime CDATA #IMPLIED>
+
+<!ELEMENT trigger (parameter*)>
+    <!ATTLIST trigger id ID #REQUIRED>
+    <!ATTLIST trigger name CDATA #REQUIRED>
+    <!ATTLIST trigger description CDATA #IMPLIED>
+    <!ATTLIST trigger targetmacro IDREF #REQUIRED>
+    <!ATTLIST trigger repeatevery CDATA #REQUIRED>
+    <!ATTLIST trigger repeatinterval (second|minute|hour) "minute">
+    <!ATTLIST trigger startateven (second|minute|hour) "minute">
+    <!ATTLIST trigger repeats CDATA #IMPLIED>
+    <!ATTLIST trigger onlasttry (1|2|3|4) "4" #IMPLIED>
+    <!ATTLIST trigger refireinterval CDATA #IMPLIED>
+    <!ATTLIST trigger maxnumberoftries CDATA #IMPLIED>
+    <!ATTLIST trigger onerrormacro IDREF #IMPLIED>
+    <!ATTLIST trigger notificationemailaddress CDATA #IMPLIED>
+    <!ATTLIST trigger starttime CDATA #IMPLIED>
+    <!ATTLIST trigger endtime CDATA #IMPLIED>
+
+<!ELEMENT parameter (name|value)>
+
+<!ELEMENT properties EMPTY>
+    <!ATTLIST properties propertyfile CDATA #REQUIRED>
+
+<!ELEMENT property (name|value)>
+
+<!-- MODULES CONFIG -->
+<!ELEMENT modules ( module* | include* | loggermodule? | ramjetmodule? | adminramjetmodule? | adammodule? | mailmodule? |environmentspecific*)* )>
+
+<!ELEMENT module ( gui?|nodeId?|applicationName?|templateDirPath?|useSearchMigrable?|localization?|injectedResources?|importDir?|archiveDir?|errorDir? |environmentspecific*)* )>
+    <!ATTLIST module required (true|false) "true" #IMPLIED>
+    <!ATTLIST module customName ID #REQUIRED>
+    <!ATTLIST module classname CDATA #REQUIRED>
+
+<!ELEMENT gui ( dictionary? | setup? )>
+    <!ATTLIST gui ramJetModuleName CDATA #IMPLIED>
+    <!ATTLIST gui admin (true|false) "false" #IMPLIED>
+    <!ATTLIST gui defaultSetup (true|false) "true" #IMPLIED>
+    <!ATTLIST gui liveConfigParentNode CDATA #IMPLIED>
+    <!ATTLIST gui liveConfigStorage CDATA #IMPLIED>
+
+<!ELEMENT dictionary ANY><!-- FIXME -->
+<!ELEMENT setup ANY><!-- FIXME -->
+<!ELEMENT nodeId (#PCDATA)><!-- FIXME -->
+<!ELEMENT applicationName (#PCDATA)><!-- FIXME -->
+<!ELEMENT useSearchMigrable (#PCDATA)><!-- FIXME -->
+<!ELEMENT templateDirPath (#PCDATA)><!-- FIXME -->
+<!ELEMENT importDir (#PCDATA)><!-- FIXME -->
+<!ELEMENT archiveDir (#PCDATA)><!-- FIXME -->
+<!ELEMENT errorDir (#PCDATA)><!-- FIXME -->
+
+<!ELEMENT injectedResources (connection?)>
+
+<!ELEMENT connection (#PCDATA)>
+    <!ATTLIST connection as CDATA #IMPLIED>
+    <!ATTLIST connection txManager CDATA #IMPLIED>
+
+<!ELEMENT localization (bundle)>
+
+<!ELEMENT bundle (#PCDATA)>
+
+<!ELEMENT config EMPTY>
+    <!ATTLIST config baseStorage CDATA #REQUIRED>
+
+<!ELEMENT loggermodule ( logger+ |environmentspecific*)* )>
+    <!ATTLIST loggermodule required (true|false) "true" #IMPLIED>
+    <!ATTLIST loggermodule filePath ID #REQUIRED>
+    <!ATTLIST loggermodule patternLayout CDATA #REQUIRED>
+    <!ATTLIST loggermodule fsAppender (true|false) #IMPLIED>
+    <!ATTLIST loggermodule dbAppender (true|false) #IMPLIED>
+
+<!ELEMENT logger EMPTY>
+    <!ATTLIST logger package CDATA #REQUIRED>
+    <!ATTLIST logger level (debug|info|warn|error) "info">
+
+<!ELEMENT ramjetmodule (injectedResources*|gui?|setup?|config?|localization?|dictionary?)>
+    <!ATTLIST ramjetmodule required (true|false) "true" #IMPLIED>
+
+<!ELEMENT adminramjetmodule (injectedResources*|gui?|setup?|config?|localization?|dictionary?)>
+    <!ATTLIST adminramjetmodule required (true|false) "true" #IMPLIED>
+
+<!ELEMENT adammodule (injectedResources*|model?)>
+    <!ATTLIST adammodule required (true|false) "true" #IMPLIED>
+
+<!ELEMENT model (metadataConfiguration?|autoupdate?)>
+    <!ATTLIST model name CDATA #REQUIRED>
+    <!ATTLIST model version CDATA #REQUIRED>
+
+<!ELEMENT mailmodule EMPTY>
+    <!ATTLIST mailmodule required (true|false) "true" #IMPLIED>
+
+<!-- STRUCTURE CONFIG -->
+<!ELEMENT page ( comment?, attachment*, pertinentlink*, pertinenturl*, keywords?, ( locale* | var* | page* | pagelist* | pagedlist* | categorylist* | node* | application* | shortcut* )* )>
+    <!ATTLIST page id ID #REQUIRED>
+    <!ATTLIST page lang CDATA #IMPLIED>
+    <!ATTLIST page name CDATA #REQUIRED>
+    <!ATTLIST page sourcepath CDATA #IMPLIED>
+    <!ATTLIST page source CDATA #IMPLIED>
+    <!ATTLIST page structure CDATA #IMPLIED>
+    <!ATTLIST page url CDATA #IMPLIED>
+    <!ATTLIST page baseurl CDATA #IMPLIED>
+    <!ATTLIST page ssl (true|false) #IMPLIED>
+    <!ATTLIST page onclick CDATA #IMPLIED>
+    <!ATTLIST page onmouseover CDATA #IMPLIED>
+    <!ATTLIST page onmouseout CDATA #IMPLIED>
+    <!ATTLIST page target CDATA #IMPLIED>
+    <!ATTLIST page template IDREF #IMPLIED>
+    <!ATTLIST page menuhide (true|false) #IMPLIED>
+    <!ATTLIST page autobuild IDREF #IMPLIED>
+    <!ATTLIST page afterpublicate IDREF #IMPLIED>
+    <!ATTLIST page beforepublicate IDREF #IMPLIED>
+    <!ATTLIST page public (true|false) #IMPLIED>
+    <!ATTLIST page sourcecharset CDATA #IMPLIED>
+    <!ATTLIST page destinationcharset CDATA #IMPLIED>
+    <!ATTLIST page category CDATA #IMPLIED>
+    <!ATTLIST page sniffer CDATA #IMPLIED>
+    <!ATTLIST page editable (true|false) "false">
+    <!ATTLIST page publishable (true|false) "true">
+    <!ATTLIST page previewable (true|false) "true">
+    <!ATTLIST page guideline CDATA #IMPLIED>
+
+<!ELEMENT pagelist (comment?, condition?, keywords?, ( locale* | var* | feed* | itemdetail? | page* | pagelist* | pagedlist* | categorylist* | node* | application* | shortcut* )* )>
+    <!ATTLIST pagelist id ID #REQUIRED>
+    <!ATTLIST pagelist lang CDATA #IMPLIED>
+    <!ATTLIST pagelist name CDATA #REQUIRED>
+    <!ATTLIST pagelist sourcepath CDATA #IMPLIED>
+    <!ATTLIST pagelist source CDATA #IMPLIED>
+    <!ATTLIST pagelist structure CDATA #IMPLIED>
+    <!ATTLIST pagelist url CDATA #IMPLIED>
+    <!ATTLIST pagelist baseurl CDATA #IMPLIED>
+    <!ATTLIST pagelist ssl (true|false) #IMPLIED>
+    <!ATTLIST pagelist onclick CDATA #IMPLIED>
+    <!ATTLIST pagelist onmouseover CDATA #IMPLIED>
+    <!ATTLIST pagelist onmouseout CDATA #IMPLIED>
+    <!ATTLIST pagelist target CDATA #IMPLIED>
+    <!ATTLIST pagelist template IDREF #IMPLIED>
+    <!ATTLIST pagelist menuhide (true|false) #IMPLIED>
+    <!ATTLIST pagelist autobuild IDREF #IMPLIED>
+    <!ATTLIST pagelist afterpublicate IDREF #IMPLIED>
+    <!ATTLIST pagelist beforepublicate IDREF #IMPLIED>
+    <!ATTLIST pagelist public (true|false) #IMPLIED>
+    <!ATTLIST pagelist sourcecharset CDATA #IMPLIED>
+    <!ATTLIST pagelist destinationcharset CDATA #IMPLIED>
+    <!ATTLIST pagelist reverse (true|false) #IMPLIED>
+    <!ATTLIST pagelist reverseid (true|false) "false">
+    <!ATTLIST pagelist omitdetail (true|false) #IMPLIED>
+    <!ATTLIST pagelist itemurl CDATA #IMPLIED>
+    <!ATTLIST pagelist items CDATA #IMPLIED>
+    <!ATTLIST pagelist days CDATA #IMPLIED>
+    <!ATTLIST pagelist sniffer CDATA #IMPLIED>
+    <!ATTLIST pagelist editable (true|false) "false">
+    <!ATTLIST pagelist publishable (true|false) "true">
+    <!ATTLIST pagelist previewable (true|false) "true">
+    <!ATTLIST pagelist guideline CDATA #IMPLIED>
+
+<!ELEMENT feed (comment?,itemdetail?)*>
+    <!ATTLIST feed id ID #REQUIRED>
+    <!ATTLIST feed name CDATA #REQUIRED>
+    <!ATTLIST feed source CDATA #IMPLIED>
+    <!ATTLIST feed public (true|false) #IMPLIED>
+    <!ATTLIST feed sourcecharset CDATA #IMPLIED>
+    <!ATTLIST feed reverse (true|false) #IMPLIED>
+    <!ATTLIST feed items CDATA #IMPLIED>
+    <!--ATTLIST feed sniffer CDATA #IMPLIED-->
+
+<!ELEMENT itemdetail (comment?)*>
+    <!ATTLIST itemdetail name CDATA #IMPLIED>
+    <!ATTLIST itemdetail url CDATA #IMPLIED>
+    <!ATTLIST itemdetail template IDREF #IMPLIED>
+    <!ATTLIST itemdetail idpart CDATA #IMPLIED>
+    <!ATTLIST itemdetail addtotrack (true|false) #IMPLIED>
+    <!ATTLIST itemdetail resetid (true|false) "false">
+    <!ATTLIST itemdetail inheritmacros (true|false) #IMPLIED>
+
+<!ELEMENT pagedlist (comment?, condition?, keywords?, ( locale* | var* | feed* | listproperties? | detailproperties? | page* | pagedlist* | categorylist* | node* | application* | shortcut* )* )>
+    <!ATTLIST pagedlist id ID #REQUIRED>
+    <!ATTLIST pagedlist lang CDATA #IMPLIED>
+    <!ATTLIST pagedlist name CDATA #REQUIRED>
+    <!ATTLIST pagedlist sourcepath CDATA #IMPLIED>
+    <!ATTLIST pagedlist source CDATA #IMPLIED>
+    <!ATTLIST pagedlist structure CDATA #IMPLIED>
+    <!ATTLIST pagedlist url CDATA #IMPLIED>
+    <!ATTLIST pagedlist baseurl CDATA #IMPLIED>
+    <!ATTLIST pagedlist ssl (true|false) #IMPLIED>
+    <!ATTLIST pagedlist onclick CDATA #IMPLIED>
+    <!ATTLIST pagedlist onmouseover CDATA #IMPLIED>
+    <!ATTLIST pagedlist onmouseout CDATA #IMPLIED>
+    <!ATTLIST pagedlist target CDATA #IMPLIED>
+    <!ATTLIST pagedlist template IDREF #IMPLIED>
+    <!ATTLIST pagedlist menuhide (true|false) #IMPLIED>
+    <!ATTLIST pagedlist autobuild IDREF #IMPLIED>
+    <!ATTLIST pagedlist afterpublicate IDREF #IMPLIED>
+    <!ATTLIST pagedlist beforepublicate IDREF #IMPLIED>
+    <!ATTLIST pagedlist public (true|false) #IMPLIED>
+    <!ATTLIST pagedlist sourcecharset CDATA #IMPLIED>
+    <!ATTLIST pagedlist destinationcharset CDATA #IMPLIED>
+    <!ATTLIST pagedlist editable (true|false) "false">
+    <!ATTLIST pagedlist publishable (true|false) "true">
+    <!ATTLIST pagedlist previewable (true|false) "true">
+    <!ATTLIST pagedlist guideline CDATA #IMPLIED>
+
+<!ELEMENT listproperties (comment?)*>
+    <!ATTLIST listproperties reverse (true|false) #IMPLIED>
+    <!ATTLIST listproperties items CDATA #IMPLIED>
+    <!ATTLIST listproperties pages CDATA #IMPLIED>
+    <!ATTLIST listproperties pagedurl CDATA #IMPLIED>
+    <!ATTLIST listproperties omitdetail (true|false) #IMPLIED>
+
+<!ELEMENT detailproperties (comment?)*>
+    <!ATTLIST detailproperties name CDATA #IMPLIED>
+    <!ATTLIST detailproperties url CDATA #IMPLIED>
+    <!ATTLIST detailproperties template IDREF #IMPLIED>
+    <!ATTLIST detailproperties addtotrack (true|false) #IMPLIED>
+    <!ATTLIST detailproperties idpart CDATA #IMPLIED>
+    <!ATTLIST detailproperties namepart CDATA #IMPLIED>
+    <!ATTLIST detailproperties modifiedpart CDATA #IMPLIED>
+    <!ATTLIST detailproperties modifiedpattern CDATA #IMPLIED>
+    <!ATTLIST detailproperties inheritmacros (true|false) #IMPLIED>
+
+<!ELEMENT categorylist (comment?, urlmodifier*, condition?, keywords?, ( locale* | var* | page* | pagelist* | pagedlist* | categorylist* | node* | application* | shortcut* )* )>
+    <!ATTLIST categorylist id ID #REQUIRED>
+    <!ATTLIST categorylist lang CDATA #IMPLIED>
+    <!ATTLIST categorylist targetid IDREF #REQUIRED>
+    <!ATTLIST categorylist name CDATA #REQUIRED>
+    <!ATTLIST categorylist sourcepath CDATA #IMPLIED>
+    <!ATTLIST categorylist source CDATA #IMPLIED>
+    <!ATTLIST categorylist structure CDATA #IMPLIED>
+    <!ATTLIST categorylist url CDATA #IMPLIED>
+    <!ATTLIST categorylist baseurl CDATA #IMPLIED>
+    <!ATTLIST categorylist ssl (true|false) #IMPLIED>
+    <!ATTLIST categorylist onclick CDATA #IMPLIED>
+    <!ATTLIST categorylist onmouseover CDATA #IMPLIED>
+    <!ATTLIST categorylist onmouseout CDATA #IMPLIED>
+    <!ATTLIST categorylist target CDATA #IMPLIED>
+    <!ATTLIST categorylist template IDREF #IMPLIED>
+    <!ATTLIST categorylist menuhide (true|false) #IMPLIED>
+    <!ATTLIST categorylist autobuild IDREF #IMPLIED>
+    <!ATTLIST categorylist afterpublicate IDREF #IMPLIED>
+    <!ATTLIST categorylist beforepublicate IDREF #IMPLIED>
+    <!ATTLIST categorylist public (true|false) #IMPLIED>
+    <!ATTLIST categorylist sourcecharset CDATA #IMPLIED>
+    <!ATTLIST categorylist destinationcharset CDATA #IMPLIED>
+    <!ATTLIST categorylist generatemembers (true|false) "false">
+    <!ATTLIST categorylist sniffer CDATA #IMPLIED>
+    <!ATTLIST categorylist editable (true|false) "false">
+    <!ATTLIST categorylist publishable (true|false) "true">
+    <!ATTLIST categorylist previewable (true|false) "true">
+
+<!ELEMENT application ( comment?, pertinentlink*, pertinenturl*, keywords?, ( locale* | var* | page* | pagelist* | pagedlist* | categorylist* | node* | application* | shortcut* )* )>
+    <!ATTLIST application id ID #REQUIRED>
+    <!ATTLIST application lang CDATA #IMPLIED>
+    <!ATTLIST application name CDATA #REQUIRED>
+    <!ATTLIST application url CDATA #REQUIRED>
+    <!ATTLIST application baseurl CDATA #IMPLIED>
+    <!ATTLIST application ssl (true|false) #IMPLIED>
+    <!ATTLIST application onclick CDATA #IMPLIED>
+    <!ATTLIST application onmouseover CDATA #IMPLIED>
+    <!ATTLIST application onmouseout CDATA #IMPLIED>
+    <!ATTLIST application target CDATA #IMPLIED>
+    <!ATTLIST application template IDREF #IMPLIED>
+    <!ATTLIST application javatemplate (true|false) #IMPLIED>
+    <!ATTLIST application menuhide (true|false) #IMPLIED>
+    <!ATTLIST application public (true|false) #IMPLIED>
+    <!ATTLIST application sniffer CDATA #IMPLIED>
+    <!ATTLIST application editable (true|false) "false">
+    <!ATTLIST application publishable (true|false) "true">
+    <!ATTLIST application previewable (true|false) "true">
+
+<!ELEMENT shortcut ( comment?, keywords?, ( locale* | var* | page* | pagelist* | pagedlist* | categorylist* | node* | application* | shortcut* )* )>
+    <!ATTLIST shortcut id ID #REQUIRED>
+    <!ATTLIST shortcut lang CDATA #IMPLIED>
+    <!ATTLIST shortcut targetid IDREF #REQUIRED>
+    <!ATTLIST shortcut menuhide (true|false) #IMPLIED>
+    <!ATTLIST shortcut onclick CDATA #IMPLIED>
+    <!ATTLIST shortcut onmouseover CDATA #IMPLIED>
+    <!ATTLIST shortcut onmouseout CDATA #IMPLIED>
+    <!ATTLIST shortcut target CDATA #IMPLIED>
+    <!ATTLIST shortcut public (true|false) #IMPLIED>
+    <!ATTLIST shortcut name CDATA #IMPLIED>
+    <!ATTLIST shortcut sourcepath CDATA #IMPLIED>
+    <!ATTLIST shortcut sourcecharset CDATA #IMPLIED>
+    <!ATTLIST shortcut template IDREF #IMPLIED>
+    <!ATTLIST shortcut sniffer CDATA #IMPLIED>
+    <!ATTLIST shortcut editable (true|false) "false">
+    <!ATTLIST shortcut publishable (true|false) "true">
+    <!ATTLIST shortcut previewable (true|false) "true">
+
+<!ELEMENT node ( comment?, keywords?, ( locale* | var* | page* | pagelist* | pagedlist* | categorylist* | node* | application* | shortcut* )* |environmentspecific* )>
+    <!ATTLIST node id ID #REQUIRED>
+    <!ATTLIST node lang CDATA #IMPLIED>
+    <!ATTLIST node name CDATA #IMPLIED>
+    <!ATTLIST node sourcepath CDATA "">
+    <!ATTLIST node template IDREF #IMPLIED>
+    <!ATTLIST node url CDATA #IMPLIED>
+    <!ATTLIST node baseurl CDATA #IMPLIED>
+    <!ATTLIST node ssl (true|false) #IMPLIED>
+    <!ATTLIST node menuhide (true|false) #IMPLIED>
+    <!ATTLIST node autobuild IDREF #IMPLIED>
+    <!ATTLIST node afterpublicate IDREF #IMPLIED>
+    <!ATTLIST node beforepublicate IDREF #IMPLIED>
+    <!ATTLIST node public (true|false) #IMPLIED>
+    <!ATTLIST node category CDATA #IMPLIED>
+    <!ATTLIST node destinationcharset CDATA #IMPLIED>
+    <!ATTLIST node sniffer CDATA #IMPLIED>
+    <!ATTLIST node onclick CDATA #IMPLIED>
+    <!ATTLIST node onmouseover CDATA #IMPLIED>
+    <!ATTLIST node onmouseout CDATA #IMPLIED>
+    <!ATTLIST node editable (true|false) "false">
+    <!ATTLIST node publishable (true|false) "true">
+    <!ATTLIST node previewable (true|false) "true">
+
+<!ELEMENT locale ( comment?,( listproperties?, detailproperties?, itemdetail?, keywords? )* )>
+    <!ATTLIST locale name CDATA #IMPLIED>
+    <!ATTLIST locale lang IDREF #REQUIRED>
+    <!ATTLIST locale onclick CDATA #IMPLIED>
+    <!ATTLIST locale onmouseover CDATA #IMPLIED>
+    <!ATTLIST locale onmouseout CDATA #IMPLIED>
+    <!ATTLIST locale template IDREF #IMPLIED>
+    <!ATTLIST locale source CDATA #IMPLIED>
+    <!ATTLIST locale sourcepath CDATA #IMPLIED>
+    <!ATTLIST locale url CDATA #IMPLIED>
+    <!ATTLIST locale menuhide (true|false) #IMPLIED>
+    <!ATTLIST locale public (true|false) #IMPLIED>
+    <!ATTLIST locale itemurl CDATA #IMPLIED>
+    <!ATTLIST locale targetid IDREF #IMPLIED>
+    <!ATTLIST locale destinationcharset CDATA #IMPLIED>
+    <!--<!ATTLIST locale sniffer CDATA #IMPLIED>-->
+
+<!ELEMENT pertinentlink EMPTY>
+    <!ATTLIST pertinentlink page IDREF #REQUIRED>
+
+<!ELEMENT pertinenturl EMPTY>
+    <!ATTLIST pertinenturl name CDATA #IMPLIED>
+    <!ATTLIST pertinenturl url CDATA #IMPLIED>
+    <!ATTLIST pertinenturl type CDATA #IMPLIED>
+
+<!ELEMENT keywords (keyword+)>
+    <!ATTLIST keywords inherit (true|false) #IMPLIED>
+
+<!ELEMENT keyword (#PCDATA)>
+
+<!ELEMENT var (#PCDATA)>
+    <!ATTLIST var name CDATA #REQUIRED>
+    <!ATTLIST var lang IDREF #IMPLIED>
+    <!ATTLIST var trim (true|false) "true">
+
+<!ELEMENT attachment EMPTY>
+    <!ATTLIST attachment name CDATA #IMPLIED>
+    <!ATTLIST attachment priority CDATA #IMPLIED>
+    <!ATTLIST attachment filename CDATA #IMPLIED>
+    <!ATTLIST attachment targetid IDREF #IMPLIED>
+    <!ATTLIST attachment onclick CDATA #IMPLIED>
+    <!ATTLIST attachment onmouseover CDATA #IMPLIED>
+    <!ATTLIST attachment onmouseout CDATA #IMPLIED>
+    <!ATTLIST attachment target CDATA #IMPLIED>
+    <!ATTLIST attachment public (true|false) #IMPLIED>
+

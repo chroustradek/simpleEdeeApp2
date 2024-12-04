@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sitemap SYSTEM "cps.dtd">
+<sitemap>
+    <storages basepath="${project.path}">
+
+        <!-- uživatelsky vkládaný veřejný obsah (položka soubory v administraci) -->
+        <publishstorage id="f.file" name="Soubory" normalize="true" fileVariantThreadPool="image"
+                        path="/data/storage-file" url="${edee.context}/file/edee/" trash="/trash"
+                        table="STORAGE_FILE" connection="c.edee"
+                        secured="true" publishmetadata="true" dialect="${database.dialect}" createparam="${database.publishstorage.createparam}">
+
+        </publishstorage>
+
+
+
+    </storages>
+</sitemap>
