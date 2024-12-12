@@ -11,21 +11,37 @@ WORKDIR /www/p_prj/p_lom/web2023/java_web
 RUN mvn clean install
 
 
-# Stage 2: Create the final image with Tomcat 8 and JDK 17
-FROM registry-it.fg.cz:4567/fgit/tomcat:9.0-openjdk17
-COPY --from=build /www/p_prj/p_lom/web2023/java_web/web_web2023/target/*.war /usr/local/tomcat/webapps/app.war
-COPY --from=build /www/p_prj/p_lom/web2023/ /www/p_prj/p_lom/web2023/
-COPY server.xml /usr/local/tomcat/conf/server.xml
-COPY keystore /usr/local/tomcat/conf/.keystore
 
-ENV CATALINA_BASE="/usr/local/tomcat"
-ENV CATALINA_HOME="/usr/local/tomcat"
+# Stage 2: Create the final image with Tomcat 8 and JDK 17
+FROM registry.redhat.io/jboss-webserver-6/jws60-openjdk21-openshift-rhel8
+
+COPY --from=build /www/p_prj/p_lom/web2023/java_web/web_web2023/target/*.war /opt/jws-6.0/tomcat/webapps/app.war
+COPY --from=build /www/p_prj/p_lom/web2023/ /www/p_prj/p_lom/web2023/
+COPY server.xml /opt/jws-6.0/tomcat/conf/server.xml
+COPY keystore /opt/jws-6.0/tomcat/conf/.keystore
+
+ENV CATALINA_BASE="/opt/jws-6.0/tomcat/conf/"
+ENV CATALINA_HOME="/opt/jws-6.0/tomcat/conf/"
 
 # Set environment variables for Tomcat
 ENV CATALINA_OPTS="-Dfg.server.xml.docbase=/www/p_prj/p_lom/web2023/java_web/web_web2023/target/web_web2023/ -Dfg.server.xml.cps_config=/www/p_prj/p_lom/web2023/config/sitemap.xml --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED"
 
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Stage 2: Create the final image

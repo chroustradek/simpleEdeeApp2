@@ -50,7 +50,16 @@
 <!--    <registration.version>5.27.1-RCH-2176-SNAPSHOT</registration.version>-->
   </properties>
   <dependencyManagement>
+
     <dependencies>
+      <!-- importing the jboss-eap-jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+      <dependency>
+        <groupId>org.jboss.bom</groupId>
+        <artifactId>jboss-eap-jakartaee8-with-tools</artifactId>
+        <version>${version.server.bom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
@@ -64,4 +73,69 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>jakarta.enterprise</groupId>
+      <artifactId>jakarta.enterprise.cdi-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.annotation</groupId>
+      <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.ws.rs</groupId>
+      <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+    <profile>
+      <!-- When built in OpenShift the 'openshift' profile will be
+          used when invoking mvn. -->
+      <!-- Use this profile for any OpenShift specific customization
+          your app will need. -->
+      <id>openshift</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+              <warName>ROOT</warName>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <repositories>
+    <repository>
+      <id>jboss-enterprise-maven-repository</id>
+      <name>JBoss Enterprise Maven Repository</name>
+      <url>https://maven.repository.redhat.com/ga/</url>
+    </repository>
+    <repository>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Repository Group</name>
+      <url>https://repository.jboss.org/nexus/content/groups/public</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>jboss-enterprise-maven-repository</id>
+      <name>JBoss Enterprise Maven Repository</name>
+      <url>https://maven.repository.redhat.com/ga/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Repository Group</name>
+      <url>https://repository.jboss.org/nexus/content/groups/public</url>
+    </pluginRepository>
+  </pluginRepositories>
 </project>
